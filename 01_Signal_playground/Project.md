@@ -12,6 +12,7 @@ Phase
 Sampling rate
 Duration
 Plot the signal in the time domain.
+
 2. Explore Signal Parameters
 
 Experiment with changing:
@@ -28,11 +29,13 @@ Generate two or more sine waves.
 Add them together.
 Visualize the resulting composite signal.
 Observe how multiple frequency components appear in a single signal.
+
 4. Add Noise
 Generate a clean signal.
 Add random noise to it.
 Compare the clean and noisy signals.
 Observe how increasing noise affects the signal.
+
 5. Explore Sampling
 
 Experiment with different sampling rates.
@@ -40,6 +43,7 @@ Experiment with different sampling rates.
 Sample a signal at a high enough rate.
 Reduce the sampling rate.
 Observe how the discrete samples represent the original signal.
+
 6. Demonstrate Aliasing
 
 Create an experiment where the sampling rate is too low for the signal frequency.
@@ -47,6 +51,7 @@ Create an experiment where the sampling rate is too low for the signal frequency
 Observe the resulting sampled signal.
 Compare it with the original signal.
 Understand why the sampled signal can appear to have a different frequency.
+
 7. Build a Small Signal Playground
 
 Combine the previous experiments into a simple program where the signal parameters can be changed easily.
