@@ -35,7 +35,7 @@ x, y2 = signaltwo();
 
 combine = y1 + y2
 
-plt.plot(x, combine)
+plt.stem(x, combine)
 plt.xlabel('Time')
 plt.ylabel('Amplitude')
 plt.axis('tight')
