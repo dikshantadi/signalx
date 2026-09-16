@@ -95,17 +95,46 @@ combined = y1 + y2
 
 For this simple case, both signals should use the **same time grid** so that corresponding samples represent the same moments in time.
 
-### Today's Main Idea
+### Noisy Signal
 
-```text
-Signal parameters
-       ↓
-Generate samples
-       ↓
-Amplitude / Frequency / Phase
-       ↓
-Visualize with plot/stem
-       ↓
-Combine signals
-```
+A noisy signal is a clean signal with random noise added to it.
 
+noisy = np.random.normal(0, 1, len(signaly))
+
+signal_noisy = signaly + noisy
+
+np.random.normal(mean, standard_deviation, size) → generates random values from a normal (Gaussian) distribution.
+
+For example:
+
+noisy = np.random.normal(0, 10, len(signaly))
+
+where:
+
+0 → mean of the noise
+10 → standard deviation (spread) of the noise
+len(signaly) → number of noise samples
+
+The noise should have the same number of samples as the signal so that they can be added sample-by-sample.
+
+Clean signal
+     +
+   Noise
+     ↓
+Noisy signal
+signal_noisy = signaly + noisy
+
+Increasing the standard deviation makes the noise more spread out, so the noise becomes stronger relative to the signal.
+
+Small standard deviation → smaller noise
+Large standard deviation → larger noise
+
+The standard deviation is not the maximum amplitude of the noise. It describes how widely the random values are distributed around the mean.
+
+x_noisy[n] = x[n] + w[n]
+
+where:
+
+* x[n] → clean signal
+* w[n] → random noise
+* x_noisy[n] → noisy signal

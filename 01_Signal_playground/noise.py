@@ -6,7 +6,7 @@ matplotlib.use("QtAgg")
 def noisy_signal():
     A = 1;
     F = 100;
-    fs = 500;
+    fs = 50;
     p = np.pi/2;
     t = 1;
     N = int (fs * t);
@@ -18,11 +18,11 @@ def noisy_signal():
 
 signaly = noisy_signal();
 
-noisy = np.random.normal(0, 0.01, len(signaly));
+noisy = np.random.normal(0, 10, len(signaly));
 
 signal_noisy = signaly + noisy;
 
-plt.plot(signal_noisy);
+plt.stem(signal_noisy);
 plt.xlabel('Time')
 plt.ylabel('Amplitude')
 plt.axis('tight')
