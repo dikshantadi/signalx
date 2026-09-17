@@ -23,18 +23,20 @@ noisy = np.random.normal(0, noise_std, N);
 
 noisy_sig = normal_signal + noisy;
 
-plt.plot(x, normal_signal);
-plt.xlabel('Time')
-plt.ylabel('Amplitude')
-plt.axis('tight')
-plt.show()
+fig, ax = plt.subplots(1, 2)
 
-plt.plot(x, noisy_sig);
-plt.xlabel('Time')
-plt.ylabel('Amplitude')
-plt.axis('tight')
-plt.show()
+ax[0].plot(x, normal_signal)
+ax[0].set_title("Clean Signal")
+ax[0].set_xlabel("Time")
+ax[0].set_ylabel("Amplitude")
 
+ax[1].plot(x, noisy_sig)
+ax[1].set_title("Noisy Signal")
+ax[1].set_xlabel("Time")
+ax[1].set_ylabel("Amplitude")
+
+plt.tight_layout()
+plt.show()
 
 
 

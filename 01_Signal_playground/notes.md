@@ -1,140 +1,222 @@
-## Signal Playground Notes
+# Signal Playground — Notes
 
-### Generating Points
+## Signals
 
-`np.linspace()` → generates evenly spaced points for our signal/time axis.
+Basic sine wave:
 
-Example:
-
-```python
-x = np.linspace(0, t, N)
+```text
+x(t) = A sin(2πFt + P)
 ```
 
-### Plotting
-
-`plt.stem()` → shows a signal as **discrete samples**.
-
-`plt.plot()` → connects the samples with lines, giving a **continuous-looking waveform**.
-
-> `plt.plot()` doesn't actually make the signal continuous — it just connects the discrete samples visually.
+* `A` → amplitude
+* `F` → frequency (Hz)
+* `P` → phase
+* `t` → time
 
 ### Amplitude
 
-To change amplitude, multiply the signal by a constant.
-
 ```python
-y = A * np.sin(x)
+y = A * np.sin(...)
 ```
 
-`A` = amplitude.
-
-Larger `A` → taller waveform.
+Larger `A` → taller wave.
 
 ### Frequency
 
-To change frequency, multiply the **input/inner term** by a constant.
-
 ```python
-y = np.sin(x * F)
+y = np.sin(2 * np.pi * F * t)
 ```
 
-`F` controls how quickly the sine wave changes.
-
-For a time-domain signal, the more standard form is:
-
-```python
-y = A * np.sin(2 * np.pi * F * t + P)
-```
-
-where:
-
-* `A` → amplitude
-* `F` → frequency in Hz
-* `t` → time
-* `P` → phase
+Larger `F` → more cycles per second.
 
 ### Phase
 
-Phase shifts the signal horizontally without changing its amplitude or frequency.
-
 ```python
 P = np.pi / 2
-y = A * np.sin(2 * np.pi * F * t + P)
 ```
 
-* `0` → no phase shift
-* `π/2` → 90°
-* `π` → 180°
-* `2π` → 360°
-
-### Sampling
-
-`fs` = sampling frequency, measured in samples/second.
-
-```python
-N = int(fs * t)
-```
-
-gives the number of samples.
-
-Higher `fs` → more samples per cycle.
-
-Important:
+Phase shifts the waveform horizontally.
 
 ```text
-samples per cycle = fs / F
+0       = 0°
+π/2     = 90°
+π       = 180°
+2π      = 360°
 ```
 
-### Combining Signals
+---
 
-Two signals can be added sample-by-sample:
+## Sampling
+
+`Fs` = sampling frequency (samples/second).
+
+```python
+N = int(Fs * duration)
+```
+
+`N` = number of samples.
+
+Sample times:
+
+```python
+t = np.linspace(0, duration, N, endpoint=False)
+```
+
+Useful relationship:
+
+```text
+samples per cycle = Fs / F
+```
+
+Higher `Fs` → more samples per cycle.
+
+---
+
+## Plotting
+
+```python
+plt.plot(t, y)
+```
+
+Connects samples visually.
+
+```python
+plt.stem(t, y)
+```
+
+Shows discrete samples.
+
+---
+
+## Aliasing
+
+If the sampling rate is too low, the sampled signal can appear as a different frequency.
+
+Nyquist condition:
+
+```text
+Fs > 2Fmax
+```
+
+Experimenting with low `Fs` is a good way to see aliasing.
+
+---
+
+## Combining Signals
+
+Signals can be added sample-by-sample:
 
 ```python
 combined = y1 + y2
 ```
 
-For this simple case, both signals should use the **same time grid** so that corresponding samples represent the same moments in time.
+Mathematically:
 
-### Noisy Signal
+```text
+x[n] = x₁[n] + x₂[n]
+```
 
-A noisy signal is a clean signal with random noise added to it.
+For direct addition, both signals should use the **same time grid**.
 
-noisy = np.random.normal(0, 1, len(signaly))
+Multiple components:
 
-signal_noisy = signaly + noisy
+```python
+combined = signal1 + signal2 + signal3
+```
 
-np.random.normal(mean, standard_deviation, size) → generates random values from a normal (Gaussian) distribution.
+This creates a more complex waveform from simpler signals.
 
-For example:
+---
 
-noisy = np.random.normal(0, 10, len(signaly))
+## Noise
 
-where:
+Noise can be generated with:
 
-0 → mean of the noise
-10 → standard deviation (spread) of the noise
-len(signaly) → number of noise samples
+```python
+noise = np.random.normal(0, noise_std, len(signal))
+```
 
-The noise should have the same number of samples as the signal so that they can be added sample-by-sample.
+Arguments:
 
-Clean signal
-     +
-   Noise
-     ↓
-Noisy signal
-signal_noisy = signaly + noisy
+```text
+0           → mean
+noise_std   → standard deviation
+len(signal) → number of samples
+```
 
-Increasing the standard deviation makes the noise more spread out, so the noise becomes stronger relative to the signal.
+Add noise:
 
-Small standard deviation → smaller noise
-Large standard deviation → larger noise
+```python
+noisy_signal = signal + noise
+```
 
-The standard deviation is not the maximum amplitude of the noise. It describes how widely the random values are distributed around the mean.
+Higher `noise_std` → stronger/more spread-out noise.
 
-x_noisy[n] = x[n] + w[n]
+---
 
-where:
+## Signal Playground
 
-* x[n] → clean signal
-* w[n] → random noise
-* x_noisy[n] → noisy signal
+The final program lets us change:
+
+```text
+Amplitude
+Frequency
+Phase
+Sampling rate
+Duration
+Noise
+Multiple signal components
+```
+
+Basic flow:
+
+```text
+Input parameters
+      ↓
+Generate time samples
+      ↓
+Generate signals
+      ↓
+Combine signals
+      ↓
+Add noise
+      ↓
+Plot
+```
+
+Clean and noisy signals can be plotted side-by-side for comparison.
+
+---
+
+## Main Things Learned
+
+* Generate signals with NumPy
+* Amplitude, frequency and phase
+* Discrete sampling
+* Sampling rate and samples/cycle
+* Aliasing
+* Signal addition
+* Multiple signal components
+* Random noise
+* Basic signal visualization
+* Using Python functions and user input
+
+### DSP Connection
+
+```text
+Signals
+   ↓
+Sampling
+   ↓
+Aliasing
+   ↓
+Signal Addition
+   ↓
+Noise
+   ↓
+Multiple Frequencies
+   ↓
+Frequency Domain
+```
+
+**Next: Frequency Domain / FFT.**
