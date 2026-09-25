@@ -1,37 +1,68 @@
-import matplotlib.pyplot as plt 
-import numpy as np 
 import matplotlib
 matplotlib.use("QtAgg")
 
-print("=== Spectrum analyzer ===");
+import matplotlib.pyplot as plt
+import numpy as np
 
-A = float(input("Amplitude : "));
-F = float(input("Frequency : "));
-P = float(input("Phase (radian) : "));
-fs = float(input("Sampling rate: "));
-duration = float(input("Duration (sec): "));
 
-N = int(fs * duration);
+print("=== Spectrum Analyzer ===")
 
-x = np.linspace(0, duration, N, endpoint=False);
+# Signal parameters
+print("=== For Signal One ===")
 
-time_signal = A * np.sin(2 * np.pi * F * x + P);
+A = float(input("Amplitude : "))
+F = float(input("Frequency : "))
+P = float(input("Phase (radian) : "))
 
-freq_signal = np.fft.fft(time_signal);
-frequencies_bin = np.fft.fftfreq(N, 1/fs);
-magnitude = np.abs(freq_signal);
+print("=== For signal two ===")
 
-print(freq_signal);
-print(frequencies_bin);
-print(magnitude);
+A2 = float(input("Amplitude : "))
+F2 = float(input("Frequency : "))
+P2 = float(input("Phase (radian) : "))
 
-fig, ax = plt.subplots(1, 2);
+# Sampling parameters
+fs = float(input("Sampling rate: "))
+duration = float(input("Duration (sec): "))
 
-ax[0].stem(x, time_signal);
-ax[0].set_title("Time Domain Signal");
+# Number of samples and time axis
+N = int(fs * duration)
+x = np.linspace(0, duration, N, endpoint=False)
+
+# Generate two sine waves
+signal_one = A * np.sin(2 * np.pi * F * x + P)
+signal_two = A2 * np.sin(2 * np.pi * F2 * x + P2)
+
+# Combine the signals
+signal_combined = signal_one + signal_two
+
+# Add random Gaussian noise (not used currently, its used in 01)
+noise = np.random.normal(0, 1, N)
+noisy_signal = signal_combined + noise
+
+# Apply a Hann window to reduce spectral leakage
+window = np.hanning(N)
+windowed_signal = signal_combined * window
+
+# Transform the signal from time domain to frequency domain
+freq_signal = np.fft.fft(windowed_signal)
+
+# Find the frequency corresponding to each FFT bin
+frequencies_bin = np.fft.fftfreq(N, 1 / fs)
+
+# Normalize FFT magnitude so it is independent of the number of samples
+magnitude = np.abs(freq_signal) / N
+
+
+# Plot time and frequency domains
+fig, ax = plt.subplots(1, 2)
+
+# Time-domain signal
+ax[0].plot(x, noisy_signal)
+ax[0].set_title("Time Domain Signal")
 ax[0].set_xlabel("Time")
 ax[0].set_ylabel("Amplitude")
 
+# Frequency-domain signal
 ax[1].stem(frequencies_bin, magnitude)
 ax[1].set_title("Frequency Domain Signal")
 ax[1].set_xlabel("Frequency")
